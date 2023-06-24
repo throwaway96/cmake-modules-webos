@@ -71,7 +71,7 @@
 
 # TODO: Using PARENT_SCOPE, see if any macros can be turned into functions
 
-cmake_minimum_required(VERSION 2.8.7)
+cmake_minimum_required(VERSION 2.8.12)
 
 include(CMakeParseArguments)
 
