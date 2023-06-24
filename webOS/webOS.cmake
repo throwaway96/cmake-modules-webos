@@ -73,6 +73,9 @@
 
 cmake_minimum_required(VERSION 2.8.7)
 
+# Save path to current file for use in _webos_check_init_version.
+set(WEBOS_CMAKE_MODULE_PATH ${CMAKE_CURRENT_LIST_FILE})
+
 include(CMakeParseArguments)
 
 # XXX Make const
@@ -99,11 +102,9 @@ function(webos_append_new_to_list listvar)
 endfunction()
 
 macro(_webos_check_init_version auth_version auth_qualifier)
-	if(EXISTS ${CMAKE_SOURCE_DIR}/webOS/webOS.cmake)
-		file(STRINGS ${CMAKE_SOURCE_DIR}/webOS/webOS.cmake _webos_contents)
-	else()
-		file(STRINGS ${CMAKE_ROOT}/Modules/webOS/webOS.cmake _webos_contents)
-	endif()
+    # XXX: It would be better to use CMAKE_CURRENT_FUNCTION_LIST_FILE, 
+    # but that was introduced in CMake 3.17.
+    file(STRINGS ${WEBOS_CMAKE_MODULE_PATH} _webos_contents)
 	list(FIND _webos_contents "# @@@VERSION" _indx)
 	if(${_indx} EQUAL -1)
 		message(FATAL_ERROR "INTERNAL ERROR: No \"# @@@VERSION\" marker found in webOS/webOS.cmake .")
