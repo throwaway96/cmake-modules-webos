@@ -33,8 +33,13 @@ webos_component(${VERSION_ARGS})
 
 # Install the modules directly into the /Modules directory of the currently running cmake instance.
 # This avoids users having to add a path to CMAKE_MODULES_PATH before they can include webOS/webOS
-install(DIRECTORY webOS DESTINATION ${CMAKE_ROOT}/Modules FILES_MATCHING PATTERN "*" PATTERN ".*" EXCLUDE)
-install(FILES REFERENCE.md DESTINATION ${CMAKE_ROOT}/Modules/webOS)
+if(DEFINED WEBOS_INSTALL_ROOT)
+  set(_target_dir ${WEBOS_INSTALL_ROOT})
+else()
+  set(_target_dir ${CMAKE_ROOT})
+endif()
+install(DIRECTORY webOS DESTINATION ${_target_dir}/Modules FILES_MATCHING PATTERN "*" PATTERN ".*" EXCLUDE)
+install(FILES REFERENCE.md DESTINATION ${_target_dir}/Modules/webOS)
 
 #
 # Tests - uncomment the appropriate lines to test the modules.
